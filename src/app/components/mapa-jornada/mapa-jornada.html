@@ -1,5 +1,11 @@
 <div class="mapa-wrapper">
-  <div #mapaInterativo id="mapa-interativo"></div>
+  <iframe
+    class="mapa-frame"
+    [src]="mapaUrl"
+    [title]="'Mapa - ' + locais[localAtual].nome"
+    loading="eager"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
 
   <div class="info-overlay">
     <img [src]="locais[localAtual].foto" alt="Foto do local" class="foto-local" />

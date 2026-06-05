@@ -30,8 +30,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
-            "allowedCommonJsDependencies": ["leaflet"]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
