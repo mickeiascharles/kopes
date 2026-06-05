@@ -1,8 +1,8 @@
 <div class="mapa-wrapper">
-  <div id="mapa-interativo"></div>
+  <div #mapaInterativo id="mapa-interativo"></div>
 
   <div class="info-overlay">
-    <img [src]="locais[localAtual].foto" alt="Foto do Local" class="foto-local" />
+    <img [src]="locais[localAtual].foto" alt="Foto do local" class="foto-local" />
 
     <div class="texto-container">
       <h3>{{ locais[localAtual].nome }}</h3>
@@ -11,7 +11,7 @@
     <div class="controles">
       <button (click)="localAnterior()" [disabled]="localAtual === 0">Voltar</button>
       <button (click)="proximoLocal()">
-        {{ localAtual === locais.length - 1 ? 'Stories' : 'Próximo' }}
+        {{ localAtual === locais.length - 1 ? 'Final' : 'Próximo' }}
       </button>
     </div>
   </div>

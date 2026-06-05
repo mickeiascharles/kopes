@@ -6,6 +6,8 @@ import {
   PLATFORM_ID,
   Output,
   EventEmitter,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
@@ -18,6 +20,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 })
 export class MapaJornada implements AfterViewInit, OnDestroy {
   @Output() completouMapa = new EventEmitter<void>();
+  @ViewChild('mapaInterativo') mapaInterativo?: ElementRef<HTMLDivElement>;
 
   private map: any;
   private L: any;
@@ -27,7 +30,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     {
       nome: 'Onde tudo começou...',
       coords: [-22.9068, -43.1729] as [number, number],
-      foto: 'https://www.swissinfo.ch/content/wp-content/uploads/sites/13/2025/12/2025-12-26T163A033A18Z-90693192.jpg?ver=a8d2679d',
+      foto: 'foto_rio.webp',
     },
     {
       nome: 'Se conhecemos pessoalmente',
@@ -77,7 +80,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     {
       nome: 'Ainda vamos voltar (RJ)',
       coords: [-22.9068, -43.1729] as [number, number],
-      foto: 'https://www.swissinfo.ch/content/wp-content/uploads/sites/13/2025/12/2025-12-26T163A033A18Z-90693192.jpg?ver=a8d2679d',
+      foto: 'foto_rio.webp',
     },
     {
       nome: 'Ainda vamos (Japão)',
@@ -109,36 +112,44 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   async ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.L = await import('leaflet');
-      setTimeout(() => this.iniciarMapa(), 500);
-    }
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.L = await import('leaflet');
+    requestAnimationFrame(() => requestAnimationFrame(() => this.iniciarMapa()));
   }
 
   private iniciarMapa(): void {
-    if (this.map) return;
+    if (this.map || !this.L || !this.mapaInterativo?.nativeElement) return;
 
-    this.map = this.L.map('mapa-interativo', {
+    this.map = this.L.map(this.mapaInterativo.nativeElement, {
       zoomControl: false,
       attributionControl: false,
       tap: false,
-    }).setView(this.locais[0].coords, 14);
+    }).setView(this.locais[this.localAtual].coords, 13);
 
-    this.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
+      crossOrigin: true,
     }).addTo(this.map);
 
     const iconeCoracao = this.L.divIcon({
-      html: '<div style="font-size: 32px;">&#10084;&#65039;</div>',
+      html: '<div class="marcador-coracao">&#10084;&#65039;</div>',
       className: '',
       iconSize: [32, 32],
+      iconAnchor: [16, 16],
     });
 
     this.locais.forEach((local) => {
       this.L.marker(local.coords, { icon: iconeCoracao }).addTo(this.map);
     });
 
-    setTimeout(() => this.map.invalidateSize(), 1000);
+    this.atualizarTamanhoMapa();
+  }
+
+  private atualizarTamanhoMapa(): void {
+    [0, 250, 800, 1500].forEach((delay) => {
+      setTimeout(() => this.map?.invalidateSize(), delay);
+    });
   }
 
   proximoLocal() {
@@ -159,8 +170,11 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
 
   voarParaLocal() {
     if (this.map) {
-      this.map.flyTo(this.locais[this.localAtual].coords, 14, { animate: true, duration: 1.5 });
-      setTimeout(() => this.map.invalidateSize(), 1500);
+      this.map.flyTo(this.locais[this.localAtual].coords, 13, {
+        animate: true,
+        duration: 1.5,
+      });
+      this.atualizarTamanhoMapa();
     }
   }
 

@@ -16,6 +16,12 @@
   touch-action: none;
 }
 
+:host ::ng-deep .marcador-coracao {
+  font-size: 32px;
+  line-height: 32px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+}
+
 .info-overlay {
   position: absolute;
   bottom: 20px;
