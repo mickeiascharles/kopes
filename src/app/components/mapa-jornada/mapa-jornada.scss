@@ -3,9 +3,12 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background-color: #f2f1eb;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 59, 48, 0.2), transparent 34%),
+    #111816;
 }
 
+.mapa-interativo,
 .mapa-frame {
   width: 100%;
   height: 100%;
@@ -15,53 +18,192 @@
   z-index: 1;
 }
 
+.mapa-interativo {
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 0.8s ease,
+    transform 1.2s ease;
+}
+
+.mapa-carregado .mapa-interativo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mapa-luz {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(8, 10, 10, 0.55), transparent 48%),
+    radial-gradient(circle at 50% 42%, transparent 0 34%, rgba(0, 0, 0, 0.2) 70%);
+}
+
+:host ::ng-deep .leaflet-container {
+  background: #111816;
+}
+
+:host ::ng-deep .leaflet-tile {
+  filter: saturate(1.08) contrast(1.04);
+}
+
+:host ::ng-deep .mapa-rota {
+  stroke-linecap: round;
+  animation: rotaAndando 1.15s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.6));
+}
+
+:host ::ng-deep .marcador-local {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ff3b30;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(255, 59, 48, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+:host ::ng-deep .marcador-local-ativo {
+  width: 34px;
+  height: 34px;
+  border-color: #fff;
+  background: #ff3b30;
+  box-shadow:
+    0 0 0 8px rgba(255, 59, 48, 0.24),
+    0 0 28px rgba(255, 59, 48, 0.88),
+    0 12px 24px rgba(0, 0, 0, 0.38);
+  animation: marcadorPulso 1.6s ease-in-out infinite;
+}
+
+:host ::ng-deep .marcador-local-ativo span::before {
+  content: '♥';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+}
+
 .info-overlay {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 25px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
+  z-index: 3;
+  background: rgba(245, 245, 244, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  padding: 16px;
+  border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  backdrop-filter: blur(12px);
+}
+
+.linha-status {
+  display: flex;
   align-items: center;
-  gap: 15px;
-  text-align: center;
+  gap: 10px;
+
+  span {
+    color: #ff3b30;
+    font-size: 0.74rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+}
+
+.barra-progresso {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(26, 26, 26, 0.12);
+
+  div {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ff3b30, #1a1a1a);
+    transition: width 0.45s ease;
+  }
+}
+
+.local-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
 
 .foto-local {
-  width: 80px;
-  height: 80px;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 18px;
   border: 3px solid #ff3b30;
+  box-shadow: 0 10px 18px rgba(255, 59, 48, 0.18);
 }
 
-.texto-container h3 {
-  margin: 0;
-  color: #1a1a1a;
-  font-size: 1.2rem;
+.texto-container {
+  min-width: 0;
+
+  h3 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    line-height: 1.12;
+  }
 }
 
 .controles {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 
   button {
+    min-height: 44px;
     background: #1a1a1a;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 800;
     cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+
+    &:active {
+      transform: scale(0.96);
+    }
 
     &:disabled {
-      background: #ccc;
+      opacity: 0.38;
       cursor: not-allowed;
     }
+  }
+}
+
+@keyframes marcadorPulso {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes rotaAndando {
+  to {
+    stroke-dashoffset: -28;
   }
 }

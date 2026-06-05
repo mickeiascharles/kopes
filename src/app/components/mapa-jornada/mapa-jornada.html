@@ -1,17 +1,33 @@
-<div class="mapa-wrapper">
-  <iframe
-    class="mapa-frame"
-    [src]="mapaUrl"
-    [title]="'Mapa - ' + locais[localAtual].nome"
-    loading="eager"
-    referrerpolicy="no-referrer-when-downgrade"
-  ></iframe>
+<div class="mapa-wrapper" [class.mapa-carregado]="mapaPronto">
+  <ng-container *ngIf="!usandoFallback; else mapaFallback">
+    <div #mapaInterativo class="mapa-interativo"></div>
+    <div class="mapa-luz"></div>
+  </ng-container>
+
+  <ng-template #mapaFallback>
+    <iframe
+      class="mapa-frame"
+      [src]="mapaUrl"
+      [title]="'Mapa - ' + locais[localAtual].nome"
+      loading="eager"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </ng-template>
 
   <div class="info-overlay">
-    <img [src]="locais[localAtual].foto" alt="Foto do local" class="foto-local" />
+    <div class="linha-status">
+      <span>Local {{ localAtual + 1 }} / {{ locais.length }}</span>
+      <div class="barra-progresso">
+        <div [style.width]="progressoMapa"></div>
+      </div>
+    </div>
 
-    <div class="texto-container">
-      <h3>{{ locais[localAtual].nome }}</h3>
+    <div class="local-card">
+      <img [src]="locais[localAtual].foto" alt="Foto do local" class="foto-local" />
+
+      <div class="texto-container">
+        <h3>{{ locais[localAtual].nome }}</h3>
+      </div>
     </div>
 
     <div class="controles">

@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import * as L from 'leaflet';
 
 type LocalMapa = {
   nome: string;
@@ -15,10 +24,13 @@ type LocalMapa = {
   templateUrl: './mapa-jornada.html',
   styleUrls: ['./mapa-jornada.scss'],
 })
-export class MapaJornada {
+export class MapaJornada implements AfterViewInit, OnDestroy {
   @Output() completouMapa = new EventEmitter<void>();
+  @ViewChild('mapaInterativo') mapaInterativo?: ElementRef<HTMLDivElement>;
 
   localAtual = 0;
+  mapaPronto = false;
+  usandoFallback = false;
   mapaUrl: SafeResourceUrl;
 
   locais: LocalMapa[] = [
@@ -104,8 +116,21 @@ export class MapaJornada {
     },
   ];
 
+  private map?: L.Map;
+  private marcadores: L.Marker[] = [];
+  private rota?: L.Polyline;
+  private tileFallbackAtivado = false;
+
   constructor(private sanitizer: DomSanitizer) {
     this.mapaUrl = this.criarMapaUrl(this.locais[this.localAtual].coords);
+  }
+
+  get progressoMapa(): string {
+    return `${((this.localAtual + 1) / this.locais.length) * 100}%`;
+  }
+
+  ngAfterViewInit() {
+    requestAnimationFrame(() => setTimeout(() => this.iniciarMapa(), 120));
   }
 
   proximoLocal() {
@@ -125,8 +150,108 @@ export class MapaJornada {
     }
   }
 
-  private atualizarMapa(): void {
+  private iniciarMapa(): void {
+    if (!this.mapaInterativo?.nativeElement) {
+      this.usandoFallback = true;
+      return;
+    }
+
+    try {
+      this.map = L.map(this.mapaInterativo.nativeElement, {
+        zoomControl: false,
+        attributionControl: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        touchZoom: true,
+        dragging: true,
+        inertia: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true,
+      }).setView(this.locais[this.localAtual].coords, this.zoomAtual());
+
+      const tilesBonitos = L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        {
+          maxZoom: 19,
+          crossOrigin: true,
+        },
+      );
+
+      tilesBonitos.on('tileerror', () => this.ativarTileFallback());
+      tilesBonitos.addTo(this.map);
+
+      this.marcadores = this.locais.map((local, index) =>
+        L.marker(local.coords, {
+          icon: this.criarIcone(index === this.localAtual),
+          keyboard: false,
+        }).addTo(this.map!),
+      );
+
+      this.rota = L.polyline(this.pontosDaRota(), {
+        color: '#ff3b30',
+        weight: 4,
+        opacity: 0.9,
+        dashArray: '2 12',
+        className: 'mapa-rota',
+      }).addTo(this.map);
+
+      this.mapaPronto = true;
+      this.atualizarMapa(false);
+      this.atualizarTamanhoMapa();
+    } catch {
+      this.usandoFallback = true;
+    }
+  }
+
+  private atualizarMapa(animar = true): void {
     this.mapaUrl = this.criarMapaUrl(this.locais[this.localAtual].coords);
+
+    if (!this.map) return;
+
+    this.marcadores.forEach((marcador, index) => {
+      marcador.setIcon(this.criarIcone(index === this.localAtual));
+    });
+
+    this.rota?.setLatLngs(this.pontosDaRota());
+    this.map.flyTo(this.locais[this.localAtual].coords, this.zoomAtual(), {
+      animate: animar,
+      duration: animar ? 1.6 : 0,
+      easeLinearity: 0.25,
+    });
+    this.atualizarTamanhoMapa();
+  }
+
+  private ativarTileFallback(): void {
+    if (!this.map || this.tileFallbackAtivado) return;
+
+    this.tileFallbackAtivado = true;
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      crossOrigin: true,
+    }).addTo(this.map);
+  }
+
+  private criarIcone(ativo: boolean): L.DivIcon {
+    return L.divIcon({
+      className: ativo ? 'marcador-local marcador-local-ativo' : 'marcador-local',
+      html: '<span></span>',
+      iconSize: ativo ? [34, 34] : [18, 18],
+      iconAnchor: ativo ? [17, 17] : [9, 9],
+    });
+  }
+
+  private pontosDaRota(): [number, number][] {
+    return this.locais.slice(0, this.localAtual + 1).map((local) => local.coords);
+  }
+
+  private zoomAtual(): number {
+    return this.localAtual >= 11 ? 10 : 12;
+  }
+
+  private atualizarTamanhoMapa(): void {
+    [0, 250, 700, 1300].forEach((delay) => {
+      setTimeout(() => this.map?.invalidateSize(), delay);
+    });
   }
 
   private criarMapaUrl([lat, lon]: [number, number]): SafeResourceUrl {
@@ -142,5 +267,12 @@ export class MapaJornada {
     return this.sanitizer.bypassSecurityTrustResourceUrl(
       `https://www.openstreetmap.org/export/embed.html?${params.toString()}`,
     );
+  }
+
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.remove();
+      this.map = undefined;
+    }
   }
 }
