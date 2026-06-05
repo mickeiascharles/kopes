@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -120,8 +121,13 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   private marcadores: L.Marker[] = [];
   private rota?: L.Polyline;
   private tileFallbackAtivado = false;
+  private tentativasInicio = 0;
+  private timeouts: ReturnType<typeof setTimeout>[] = [];
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
+  ) {
     this.mapaUrl = this.criarMapaUrl(this.locais[this.localAtual].coords);
   }
 
@@ -130,7 +136,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    requestAnimationFrame(() => setTimeout(() => this.iniciarMapa(), 120));
+    requestAnimationFrame(() => this.iniciarMapaQuandoVisivel());
   }
 
   proximoLocal() {
@@ -150,14 +156,30 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     }
   }
 
-  private iniciarMapa(): void {
-    if (!this.mapaInterativo?.nativeElement) {
+  private iniciarMapaQuandoVisivel(): void {
+    const elemento = this.mapaInterativo?.nativeElement;
+
+    if (!elemento || elemento.clientWidth === 0 || elemento.clientHeight === 0) {
+      this.tentativasInicio++;
+
+      if (this.tentativasInicio <= 12) {
+        this.agendar(() => this.iniciarMapaQuandoVisivel(), 120);
+        return;
+      }
+
       this.usandoFallback = true;
+      this.cdr.detectChanges();
       return;
     }
 
+    this.iniciarMapa(elemento);
+  }
+
+  private iniciarMapa(elemento: HTMLDivElement): void {
+    if (this.map) return;
+
     try {
-      this.map = L.map(this.mapaInterativo.nativeElement, {
+      this.map = L.map(elemento, {
         zoomControl: false,
         attributionControl: false,
         scrollWheelZoom: false,
@@ -196,10 +218,12 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
       }).addTo(this.map);
 
       this.mapaPronto = true;
+      this.cdr.detectChanges();
       this.atualizarMapa(false);
       this.atualizarTamanhoMapa();
     } catch {
       this.usandoFallback = true;
+      this.cdr.detectChanges();
     }
   }
 
@@ -249,8 +273,13 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   }
 
   private atualizarTamanhoMapa(): void {
-    [0, 250, 700, 1300].forEach((delay) => {
-      setTimeout(() => this.map?.invalidateSize(), delay);
+    [0, 120, 300, 700, 1300].forEach((delay) => {
+      this.agendar(() => {
+        this.map?.invalidateSize();
+        this.map?.setView(this.locais[this.localAtual].coords, this.zoomAtual(), {
+          animate: false,
+        });
+      }, delay);
     });
   }
 
@@ -269,7 +298,13 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     );
   }
 
+  private agendar(callback: () => void, delay: number): void {
+    this.timeouts.push(setTimeout(callback, delay));
+  }
+
   ngOnDestroy() {
+    this.timeouts.forEach((timeout) => clearTimeout(timeout));
+
     if (this.map) {
       this.map.remove();
       this.map = undefined;

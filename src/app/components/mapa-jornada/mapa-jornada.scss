@@ -19,16 +19,9 @@
 }
 
 .mapa-interativo {
-  opacity: 0;
-  transform: scale(1.04);
-  transition:
-    opacity 0.8s ease,
-    transform 1.2s ease;
-}
-
-.mapa-carregado .mapa-interativo {
   opacity: 1;
   transform: scale(1);
+  animation: mapaEntrando 0.75s ease both;
 }
 
 .mapa-luz {
@@ -205,5 +198,17 @@
 @keyframes rotaAndando {
   to {
     stroke-dashoffset: -28;
+  }
+}
+
+@keyframes mapaEntrando {
+  from {
+    opacity: 0.72;
+    transform: scale(1.03);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

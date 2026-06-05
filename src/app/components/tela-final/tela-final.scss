@@ -37,15 +37,21 @@
   position: relative;
   z-index: 3;
   text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   animation: textoFinalSubir 2.2s ease-out 0.4s both;
 }
 
 .texto-final {
-  font-size: 3rem;
-  font-weight: 800;
+  width: min(86%, 340px);
+  font-size: 2.18rem;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: 0;
   color: #ffffff;
   text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  padding: 20px;
+  padding: 20px 0;
 }
 
 @keyframes finalReveal {
