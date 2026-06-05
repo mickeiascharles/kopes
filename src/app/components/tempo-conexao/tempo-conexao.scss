@@ -19,38 +19,52 @@
   flex-direction: column;
   justify-content: space-between;
   z-index: 10;
-  padding: 52px 0 52px 54px;
+  padding: 54px 0 48px 54px;
 }
 
 .grid-tempo {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  column-gap: 24px;
+  row-gap: 17px;
+  width: 168px;
 }
 
 .item-tempo {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
 
   .num {
-    font-size: 1.8rem;
-    font-weight: bold;
+    color: #000000;
     display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
   }
 
   .lbl {
-    font-size: 0.7rem;
+    color: #000000;
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 0;
     text-transform: uppercase;
-    letter-spacing: 1px;
   }
 }
 
 .titulo-conexao {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #2b2b2b;
-  line-height: 1;
-  letter-spacing: -1px;
+  color: #242424;
+  font-size: 2.12rem;
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: 0;
+  margin: 0;
+  max-width: 158px;
 }
 
 .coluna-foto-rio {
@@ -113,8 +127,9 @@
   position: relative;
   z-index: 10;
   color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: 1.18rem;
+  font-weight: 900;
+  line-height: 1.32;
+  letter-spacing: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
