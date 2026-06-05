@@ -4,8 +4,24 @@
     <meta charset="utf-8" />
     <title>Kopes</title>
     <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/png" href="icone.png" />
+    <script>
+      (function () {
+        var ajustarAltura = function () {
+          var viewport = window.visualViewport;
+          var altura = viewport && viewport.height ? viewport.height : window.innerHeight;
+          document.documentElement.style.setProperty('--app-height', altura + 'px');
+        };
+
+        ajustarAltura();
+        window.addEventListener('resize', ajustarAltura, { passive: true });
+        window.addEventListener('orientationchange', ajustarAltura, { passive: true });
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener('resize', ajustarAltura, { passive: true });
+        }
+      })();
+    </script>
   </head>
   <body>
     <app-root></app-root>
