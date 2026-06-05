@@ -1,0 +1,25 @@
+<div class="quest-container">
+  <h1 class="titulo-vermelho">Mini quest aqui</h1>
+  <h2 class="pergunta">O que eu mais gosto em você?</h2>
+
+  <div
+    class="grid-letras"
+    [style.grid-template-columns]="'repeat(' + palavras[etapaAtual].length + ', 1fr)'"
+  >
+    <input
+      *ngFor="let char of inputs; let i = index; trackBy: trackByIndex"
+      type="text"
+      maxlength="1"
+      id="letra-{{ i }}"
+      [(ngModel)]="inputs[i]"
+      (keyup)="aoDigitar($event, i)"
+      [ngClass]="status[i]"
+      class="letra-box"
+      [disabled]="acertouTudo"
+    />
+  </div>
+
+  <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>
+
+  <button class="btn-verificar" (click)="verificarPalavra()" *ngIf="!acertouTudo">Verificar</button>
+</div>

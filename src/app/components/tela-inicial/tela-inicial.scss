@@ -1,0 +1,88 @@
+.capa-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f2f1eb;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.img-estrela {
+  position: absolute;
+  top: 20px;
+  left: -20px;
+  width: 110%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.centro-nomes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  gap: 10px;
+}
+
+.nome-red {
+  color: #ff3b30;
+  font-size: 3.5rem;
+  font-weight: bold;
+  align-self: flex-start;
+  margin-right: 60px;
+  line-height: 1;
+}
+
+.linha-divisoria {
+  width: 2px;
+  height: 80px;
+  background-color: #1a1a1a;
+  transform: rotate(35deg);
+  margin: 10px 0;
+}
+
+.nome-black {
+  color: #1a1a1a;
+  font-size: 3.5rem;
+  font-weight: bold;
+  align-self: flex-end;
+  margin-left: 60px;
+  line-height: 1;
+}
+
+.img-rabisco {
+  position: absolute;
+  bottom: 50px;
+  left: -20%;
+  width: 140%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.txt-historias {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  z-index: 20;
+}
+
+.sinal-mais {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1;
+}
+
+.nome-red,
+.nome-black {
+  margin: 0;
+  line-height: 0.9;
+}

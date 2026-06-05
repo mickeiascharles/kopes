@@ -1,0 +1,158 @@
+.radio-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #f2f1eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.topo-xadrez {
+  width: 100%;
+  height: 350px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-xadrez-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.moldura-foto {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  z-index: 10;
+  border: 4px solid #1a1a1a;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.titulo-tela {
+  font-size: 2.2rem;
+  color: #2b2b2b;
+  font-weight: bold;
+  margin: 16px 0 24px 0;
+}
+
+.player-box {
+  width: 85%;
+  background-color: #e3e3e3;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+  cursor: default;
+}
+
+.controles-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-icone {
+  background: none;
+  border: none;
+  cursor: pointer;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.btn-play-redondo {
+  width: 50px;
+  height: 50px;
+  background-color: #2b2b2b;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.triangulo-vermelho {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid #ff3b30;
+  margin-left: 4px;
+}
+
+.barras-pause {
+  width: 12px;
+  height: 16px;
+  border-left: 4px solid #ff3b30;
+  border-right: 4px solid #ff3b30;
+}
+
+.info-album {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.capa-album {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  margin-bottom: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.musica-nome {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+.musica-artista {
+  font-size: 0.6rem;
+  color: #555;
+}
+
+.assinaturas-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 250px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.assinatura-esq {
+  position: absolute;
+  bottom: -40px;
+  left: -20px;
+  width: 320px;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.assinatura-dir {
+  position: absolute;
+  bottom: -60px;
+  right: -90px;
+  width: 480px;
+  object-fit: contain;
+  z-index: 1;
+}

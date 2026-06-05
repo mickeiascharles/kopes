@@ -1,0 +1,29 @@
+<div class="story-container">
+  <img
+    *ngIf="slides[slideAtual].imagemUrl"
+    [src]="slides[slideAtual].imagemUrl"
+    class="bg-imagem"
+    alt="Story"
+  />
+
+  <div class="overlay-inferior"></div>
+
+  <div class="area-voltar" (click)="voltarSlide($event)"></div>
+  <div class="area-avancar" (click)="proximoSlide()"></div>
+
+  <div class="conteudo-inferior">
+    <div class="progress-bar-container">
+      <div class="progress-bar" *ngFor="let s of slides; let i = index">
+        <div
+          class="progress-fill"
+          [class.active]="i === slideAtual"
+          [class.passed]="i < slideAtual"
+        ></div>
+      </div>
+    </div>
+
+    <h1 class="texto-slide" *ngIf="slides[slideAtual].texto">
+      {{ slides[slideAtual].texto }}
+    </h1>
+  </div>
+</div>

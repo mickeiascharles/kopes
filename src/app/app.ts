@@ -1,12 +1,41 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TelaInicial } from './components/tela-inicial/tela-inicial';
+import { EstacaoRadio } from './components/estacao-radio/estacao-radio';
+import { TempoConexao } from './components/tempo-conexao/tempo-conexao';
+import { MiniQuest } from './components/mini-quest/mini-quest';
+import { MapaJornada } from './components/mapa-jornada/mapa-jornada';
+import { Stories } from './components/stories/stories';
+import { TelaFinal } from './components/tela-final/tela-final';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    CommonModule,
+    TelaInicial,
+    EstacaoRadio,
+    TempoConexao,
+    MiniQuest,
+    MapaJornada,
+    Stories,
+    TelaFinal,
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss'],
 })
 export class App {
-  protected readonly title = signal('pedido-retrospectiva');
+  telaAtual = 0;
+
+  avancarTela() {
+    if (this.telaAtual < 6) {
+      this.telaAtual++;
+    } else {
+      this.telaAtual = 0;
+    }
+  }
+
+  voltarInicio() {
+    this.telaAtual = 0;
+  }
 }

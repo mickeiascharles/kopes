@@ -1,0 +1,78 @@
+.tela-final-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+  animation: finalReveal 1.2s ease-out both;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.img-fundo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  animation: fotoFinalZoom 8s ease-out forwards;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.conteudo {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  animation: textoFinalSubir 2.2s ease-out 0.4s both;
+}
+
+.texto-final {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+@keyframes finalReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fotoFinalZoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes textoFinalSubir {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

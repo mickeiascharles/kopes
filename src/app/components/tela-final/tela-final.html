@@ -1,0 +1,15 @@
+<div
+  class="tela-final-container"
+  (touchstart)="iniciarDeslize($event)"
+  (touchend)="finalizarDeslize($event)"
+  (pointerdown)="iniciarDeslize($event)"
+  (pointerup)="finalizarDeslize($event)"
+>
+  <img src="capa.jpeg" class="img-fundo" alt="Foto do casal" />
+
+  <div class="overlay"></div>
+
+  <div class="conteudo">
+    <h1 class="texto-final">Sempre te amarei</h1>
+  </div>
+</div>
