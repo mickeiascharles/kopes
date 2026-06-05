@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pedido-retrospectiva": {
+    "kopes": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -19,7 +19,7 @@
           "options": {
             "browser": "src/main.ts",
             "outputPath": {
-              "base": "dist/pedido-retrospectiva",
+              "base": "dist/kopes",
               "browser": ""
             },
             "tsConfig": "tsconfig.app.json",
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "pedido-retrospectiva:build:production"
+              "buildTarget": "kopes:build:production"
             },
             "development": {
-              "buildTarget": "pedido-retrospectiva:build:development"
+              "buildTarget": "kopes:build:development"
             }
           },
           "defaultConfiguration": "development"

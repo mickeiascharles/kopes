@@ -1,4 +1,4 @@
-# Pedido Retrospectiva
+# Kopes
 
 Aplicação Angular estática pronta para hospedagem no GitHub Pages.
 
@@ -17,14 +17,14 @@ Abra `http://localhost:4200/`.
 npm run build
 ```
 
-Os arquivos finais ficam em `dist/pedido-retrospectiva`.
+Os arquivos finais ficam em `dist/kopes`.
 
 ## Build para GitHub Pages
 
-Use este comando se o repositório se chamar `pedido-retrospectiva`:
+Use este comando para o repositório `kopes`:
 
 ```bash
 npm run build:pages
 ```
 
-Se o nome do repositório for outro, ajuste o script `build:pages` em `package.json` trocando `/pedido-retrospectiva/` por `/nome-do-repositorio/`.
+O site será publicado em `https://SEU_USUARIO.github.io/kopes/`.
