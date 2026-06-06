@@ -5,7 +5,35 @@
     <title>Kopes</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f2f1eb" />
     <link rel="icon" type="image/png" href="icone.png" />
+    <link rel="preload" href="spotify_mix.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="desenho_laranja.png" as="image" />
+    <link rel="preload" href="desenho_preto.png" as="image" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #f2f1eb;
+        overflow: hidden;
+      }
+
+      app-root {
+        display: block;
+        width: 100vw;
+        height: var(--app-height, 100vh);
+        min-height: var(--app-height, 100vh);
+        background: #f2f1eb;
+      }
+
+      .app-shell-loader {
+        position: fixed;
+        inset: 0;
+        background: #f2f1eb;
+      }
+    </style>
     <script>
       (function () {
         var ajustarAltura = function () {
@@ -24,6 +52,6 @@
     </script>
   </head>
   <body>
-    <app-root></app-root>
+    <app-root><div class="app-shell-loader"></div></app-root>
   </body>
 </html>
