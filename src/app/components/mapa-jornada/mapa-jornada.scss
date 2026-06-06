@@ -3,7 +3,9 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 20%, rgba(255, 59, 48, 0.2), transparent 34%), #111816;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 59, 48, 0.25), transparent 35%),
+    #111816;
 }
 
 .mapa-interativo,
@@ -17,9 +19,14 @@
 }
 
 .mapa-interativo {
+  opacity: 0.9;
+  transform: scale(1.035);
+  animation: mapaEntrando 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+.mapa-carregado .mapa-interativo {
   opacity: 1;
-  transform: scale(1);
-  animation: mapaEntrando 0.75s ease both;
 }
 
 .mapa-luz {
@@ -28,8 +35,8 @@
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(to top, rgba(8, 10, 10, 0.55), transparent 48%),
-    radial-gradient(circle at 50% 42%, transparent 0 34%, rgba(0, 0, 0, 0.2) 70%);
+    linear-gradient(to top, rgba(8, 10, 10, 0.48), transparent 50%),
+    radial-gradient(circle at 50% 42%, transparent 0 35%, rgba(0, 0, 0, 0.16) 72%);
 }
 
 :host ::ng-deep .leaflet-container {
@@ -37,13 +44,13 @@
 }
 
 :host ::ng-deep .leaflet-tile {
-  filter: saturate(1.08) contrast(1.04);
+  filter: saturate(1.12) contrast(1.05);
 }
 
 :host ::ng-deep .mapa-rota {
   stroke-linecap: round;
-  animation: rotaAndando 1.15s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.6));
+  animation: rotaAndando 1.05s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.65));
 }
 
 :host ::ng-deep .marcador-local {
@@ -66,7 +73,7 @@
     0 0 0 8px rgba(255, 59, 48, 0.24),
     0 0 28px rgba(255, 59, 48, 0.88),
     0 12px 24px rgba(0, 0, 0, 0.38);
-  animation: marcadorPulso 1.6s ease-in-out infinite;
+  animation: marcadorPulso 1.45s ease-in-out infinite;
 }
 
 :host ::ng-deep .marcador-local-ativo span::before {
@@ -120,7 +127,7 @@
   div {
     height: 100%;
     border-radius: inherit;
-    background: #ff3b30;
+    background: linear-gradient(90deg, #ff3b30, #1a1a1a);
     transition: width 0.45s ease;
   }
 }
@@ -201,12 +208,14 @@
 
 @keyframes mapaEntrando {
   from {
-    opacity: 0.72;
-    transform: scale(1.03);
+    opacity: 0.45;
+    transform: scale(1.08);
+    filter: blur(7px);
   }
 
   to {
     opacity: 1;
     transform: scale(1);
+    filter: blur(0);
   }
 }

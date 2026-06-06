@@ -5,72 +5,76 @@
   flex-direction: column;
   background-color: #f2f1eb;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .metade-superior {
-  flex: 0 0 46.8%;
+  flex: 0 0 47.6%;
   display: grid;
-  grid-template-columns: 58% 42%;
+  grid-template-columns: 29% 71%;
   min-height: 0;
   padding: 0;
 }
 
 .coluna-numeros {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  position: relative;
   z-index: 10;
-  padding: 55px 0 0 54px;
+  min-width: 0;
+  height: 100%;
+  padding: 43px 0 0 8px;
 }
 
 .grid-tempo {
   display: grid;
-  grid-template-columns: 54px 54px;
-  column-gap: 34px;
-  row-gap: 17px;
-  width: max-content;
+  grid-template-columns: 46px 46px;
+  column-gap: 12px;
+  row-gap: 27px;
+  width: 104px;
 }
 
 .item-tempo {
+  width: 46px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
-  width: 54px;
 
   .num {
-    color: #000000;
+    width: 46px;
     display: block;
-    width: 54px;
-    font-size: 2.04rem;
+    color: #242424;
+    font-size: 2.12rem;
     font-weight: 900;
-    line-height: 0.9;
+    line-height: 0.82;
+    letter-spacing: 0;
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
 
   .lbl {
-    color: #000000;
+    width: 46px;
     display: block;
-    width: 54px;
-    font-size: 0.66rem;
+    color: #242424;
+    font-size: 0.68rem;
     font-weight: 800;
-    line-height: 1.05;
+    line-height: 1;
     letter-spacing: 0;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: lowercase;
   }
 }
 
 .titulo-conexao {
+  position: absolute;
+  left: 0;
+  top: 73%;
+  margin: 0;
   color: #242424;
-  font-size: 2.08rem;
+  font-size: 2.16rem;
   font-weight: 900;
-  line-height: 0.94;
+  line-height: 0.83;
   letter-spacing: 0;
-  margin: 43px 0 0;
-  max-width: 158px;
+  white-space: nowrap;
 }
 
 .coluna-foto-rio {
@@ -78,14 +82,13 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  padding: 0 !important;
-  margin: 0 !important;
+  padding: 0;
+  margin: 0;
 }
 
 .bg-ondas {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -95,10 +98,10 @@
 .img-rio {
   position: absolute;
   z-index: 2;
-  top: 24%;
+  top: 11%;
   left: 0;
-  width: 100%;
-  height: 62%;
+  width: 96.5%;
+  height: 66%;
   margin: 0;
   object-fit: cover;
 }
@@ -109,13 +112,12 @@
   position: relative;
   display: flex;
   align-items: flex-end;
-  padding: 0 24px 28px;
+  padding: 0 20px 27px;
 }
 
 .bg-nasa {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -127,7 +129,7 @@
   left: 0;
   width: 100%;
   height: 50%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), transparent);
 }
 
 .texto-nasa {
@@ -136,7 +138,7 @@
   color: #ffffff;
   font-size: 1.18rem;
   font-weight: 900;
-  line-height: 1.32;
+  line-height: 1.3;
   letter-spacing: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.82);
 }

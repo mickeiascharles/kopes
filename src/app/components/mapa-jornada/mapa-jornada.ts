@@ -147,7 +147,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   proximoLocal() {
     if (this.localAtual < this.locais.length - 1) {
       this.localAtual++;
-      this.atualizarMapa();
+      this.atualizarMapa(true);
       return;
     }
 
@@ -157,7 +157,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   localAnterior() {
     if (this.localAtual > 0) {
       this.localAtual--;
-      this.atualizarMapa();
+      this.atualizarMapa(true);
     }
   }
 
@@ -167,8 +167,8 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     if (!elemento || elemento.clientWidth === 0 || elemento.clientHeight === 0) {
       this.tentativasInicio++;
 
-      if (this.tentativasInicio <= 12) {
-        this.agendar(() => this.iniciarMapaQuandoVisivel(), 120);
+      if (this.tentativasInicio <= 16) {
+        this.agendar(() => this.iniciarMapaQuandoVisivel(), 100);
         return;
       }
 
@@ -184,6 +184,9 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     if (this.map) return;
 
     try {
+      const coordsIniciais = this.locais[this.localAtual].coords;
+      const zoomInicial = Math.max(this.zoomAtual() - 3, 4);
+
       this.map = L.map(elemento, {
         zoomControl: false,
         attributionControl: false,
@@ -193,8 +196,9 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
         dragging: true,
         inertia: true,
         zoomAnimation: true,
+        fadeAnimation: true,
         markerZoomAnimation: true,
-      }).setView(this.locais[this.localAtual].coords, this.zoomAtual());
+      }).setView(coordsIniciais, zoomInicial);
 
       const tilesBonitos = L.tileLayer(
         'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -224,15 +228,15 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
 
       this.mapaPronto = true;
       this.cdr.detectChanges();
-      this.atualizarMapa(false);
       this.atualizarTamanhoMapa();
+      this.agendar(() => this.animarAteLocalAtual(1.35), 180);
     } catch {
       this.usandoFallback = true;
       this.cdr.detectChanges();
     }
   }
 
-  private atualizarMapa(animar = true): void {
+  private atualizarMapa(animar: boolean): void {
     this.mapaUrl = this.criarMapaUrl(this.locais[this.localAtual].coords);
 
     if (!this.map) return;
@@ -242,12 +246,19 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
     });
 
     this.rota?.setLatLngs(this.pontosDaRota());
-    this.map.flyTo(this.locais[this.localAtual].coords, this.zoomAtual(), {
-      animate: animar,
-      duration: animar ? 1.6 : 0,
-      easeLinearity: 0.25,
-    });
+    this.animarAteLocalAtual(animar ? 1.65 : 0);
     this.atualizarTamanhoMapa();
+  }
+
+  private animarAteLocalAtual(duracao: number): void {
+    if (!this.map) return;
+
+    this.map.flyTo(this.locais[this.localAtual].coords, this.zoomAtual(), {
+      animate: duracao > 0,
+      duration: duracao,
+      easeLinearity: 0.22,
+      noMoveStart: false,
+    });
   }
 
   private ativarTileFallback(): void {
@@ -274,17 +285,12 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
   }
 
   private zoomAtual(): number {
-    return this.localAtual >= 11 ? 10 : 12;
+    return this.localAtual >= 12 ? 10 : 12;
   }
 
   private atualizarTamanhoMapa(): void {
-    [0, 120, 300, 700, 1300].forEach((delay) => {
-      this.agendar(() => {
-        this.map?.invalidateSize();
-        this.map?.setView(this.locais[this.localAtual].coords, this.zoomAtual(), {
-          animate: false,
-        });
-      }, delay);
+    [0, 120, 320, 760, 1300].forEach((delay) => {
+      this.agendar(() => this.map?.invalidateSize({ animate: true }), delay);
     });
   }
 
