@@ -11,7 +11,7 @@
 .metade-superior {
   flex: 0 0 47.6%;
   display: grid;
-  grid-template-columns: 29% 71%;
+  grid-template-columns: minmax(118px, 30.5%) 1fr;
   min-height: 0;
   padding: 0;
 }
@@ -21,15 +21,15 @@
   z-index: 10;
   min-width: 0;
   height: 100%;
-  padding: 43px 0 0 8px;
+  padding: 42px 0 0 7px;
 }
 
 .grid-tempo {
   display: grid;
   grid-template-columns: 46px 46px;
-  column-gap: 12px;
+  column-gap: 13px;
   row-gap: 27px;
-  width: 104px;
+  width: 105px;
 }
 
 .item-tempo {
@@ -66,14 +66,14 @@
 
 .titulo-conexao {
   position: absolute;
-  left: 6px;
-  top: 64%;
+  left: 7px;
+  top: 62%;
   margin: 0;
   color: #242424;
-  width: 108px;
-  font-size: 1.64rem;
+  width: calc(100% - 11px);
+  font-size: 1.72rem;
   font-weight: 900;
-  line-height: 0.95;
+  line-height: 0.92;
   letter-spacing: 0;
   white-space: normal;
   overflow: hidden;
