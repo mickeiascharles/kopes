@@ -42,6 +42,7 @@ export class Stories implements OnInit, OnDestroy {
     { texto: '', imagemUrl: '2.jpeg' },
     { texto: '', imagemUrl: 'fotnite.jpeg' },
     { texto: 'E finalmente...', imagemUrl: 'brasilia.jpeg' },
+    { texto: '', imagemUrl: 'predio.jpeg' },
     { texto: '', imagemUrl: 'airbnb.jpeg' },
     { texto: '', imagemUrl: '4.jpeg' },
     { texto: '', imagemUrl: '3.jpeg' },
@@ -64,10 +65,13 @@ export class Stories implements OnInit, OnDestroy {
     { texto: 'Sempre dá certo.', imagemUrl: '20.jpeg' },
     { texto: '', imagemUrl: '17.jpeg' },
     { texto: '', imagemUrl: '15.jpeg' },
-    { texto: '', imagemUrl: '16.jpeg' },
+    { texto: 'Sempre lembrando de ti', imagemUrl: 'print_monster.jpeg' },
+    { texto: '', imagemUrl: 'ranking.jpeg' },
+    { texto: 'Pega o monster (que nunca tomou)', imagemUrl: 'monster.jpeg' },
     { texto: '', imagemUrl: '6.gif' },
     { texto: '', imagemUrl: '60.jpeg' },
     { texto: '', imagemUrl: '14.jpeg' },
+    { texto: '', imagemUrl: 'buraco_jazz.jpeg' },
     { texto: '', imagemUrl: '12.jpeg' },
     { texto: '', imagemUrl: '8.gif' },
     { texto: '', imagemUrl: '11.jpeg' },
@@ -92,7 +96,8 @@ export class Stories implements OnInit, OnDestroy {
     { texto: '', imagemUrl: '58.jpeg' },
     { texto: '', imagemUrl: '59.jpeg' },
     { texto: 'Nervoso depois de falar com a sogra pela primeira vez', imagemUrl: 'print.jpeg' },
-    { texto: '', imagemUrl: 'viagem.jpeg' },
+    { texto: 'Minha metade', imagemUrl: 'viagem.jpeg' },
+    { texto: 'Sua metade', imagemUrl: 'v3.jpeg' },
   ];
 
   private imagensPreload = new Map<string, HTMLImageElement>();
