@@ -96,6 +96,9 @@ export class Stories implements OnInit, OnDestroy {
     { texto: '', imagemUrl: '58.jpeg' },
     { texto: '', imagemUrl: '59.jpeg' },
     { texto: 'Nervoso depois de falar com a sogra pela primeira vez', imagemUrl: 'print.jpeg' },
+    { texto: '', imagemUrl: 'metro.jpeg' },
+    { texto: '', imagemUrl: 'teatro.jpeg' },
+    { texto: '', imagemUrl: 'nos_teatro.jpeg' },
     { texto: 'Minha metade', imagemUrl: 'viagem.jpeg' },
     { texto: 'Sua metade', imagemUrl: 'v3.jpeg' },
   ];
