@@ -116,7 +116,7 @@ export class MapaJornada implements AfterViewInit, OnDestroy {
       foto: 'https://americachip.com/wp-content/uploads/2022/12/Italia.png',
     },
     {
-      nome: 'Onde estamos...',
+      nome: 'Seu lugar favorito...',
       coords: [-15.8365533, -47.8660198],
       foto: 'asadelta.jpeg',
     },
